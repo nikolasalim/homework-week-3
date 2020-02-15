@@ -15,6 +15,10 @@ export default class QuoteSearcher extends React.Component {
       });
   }
 
+  //// maybe we'll use this?
+  addingLike = id => {};
+  addingDislike = id => {};
+
   render() {
     if (!this.state.fetching) {
       return (
@@ -25,6 +29,9 @@ export default class QuoteSearcher extends React.Component {
               key={quote._id}
               quoteText={quote.quoteText}
               quoteAuthor={quote.quoteAuthor}
+              addLike={this.addingLike}
+              addDislike={this.addingDislike}
+              id={quote._id}
             ></Quote>
           ))}
         </div>
