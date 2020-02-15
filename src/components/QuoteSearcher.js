@@ -5,6 +5,7 @@ export default class QuoteSearcher extends React.Component {
   state = {
     fetching: null,
     quotes: [],
+    authors: [],
     likes: null,
     dislikes: [],
     search: ""
@@ -20,7 +21,18 @@ export default class QuoteSearcher extends React.Component {
           alert("No results were found. Please, try again.");
           this.setState({ fetching: false });
         } else {
-          this.setState({ fetching: false, quotes: quote.results });
+          console.log(quote);
+
+          ///maybe apply reduce here, before asining to "quotes:", to filter make the quotes unique (pay attention to the authors count)
+
+          this.setState({
+            fetching: false,
+            quotes: quote.results,
+            authors: Array.from(
+              new Set(quote.results.map(quote => quote.quoteAuthor))
+            )
+          });
+          console.log("STATE IS", this.state);
         }
       });
   }
@@ -43,6 +55,8 @@ export default class QuoteSearcher extends React.Component {
   // };
 
   render() {
+    const authors_copy = [...this.state.authors];
+
     if (this.state.fetching === null) {
       return (
         <div>
@@ -94,6 +108,9 @@ export default class QuoteSearcher extends React.Component {
 
           <h2>Liked:{this.state.likes}</h2>
           <h2>Disliked:{this.state.dislikes}</h2>
+
+          <h3>Number of distinct authors: {this.state.authors.length}</h3>
+          <h3>Number of quotes: {this.state.quotes.length}</h3>
 
           {this.state.quotes.map(quote => (
             <Quote
