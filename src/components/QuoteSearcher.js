@@ -16,12 +16,17 @@ export default class QuoteSearcher extends React.Component {
     )
       .then(response => response.json())
       .then(quote => {
-        this.setState({ fetching: false, quotes: quote.results });
+        if (quote.count === 0) {
+          alert("No results were found. Please, try again.");
+          this.setState({ fetching: false });
+        } else {
+          this.setState({ fetching: false, quotes: quote.results });
+        }
       });
   }
 
   handleSearch = () => {
-    this.setState({ ...this.state, fetching: true });
+    this.setState({ ...this.state, fetching: true, likes: 0 });
     this.componentDidMount();
   };
 
@@ -29,13 +34,13 @@ export default class QuoteSearcher extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  addingLike = (id, like) => {
-    this.setState({ ...this.state, likes: this.state.likes + 1 });
-  };
+  // addingLike = (id, like) => {
+  //   this.setState({ ...this.state, likes: this.state.likes + 1 });
+  // };
 
-  addingDislike = id => {
-    // console.log("id is:", id);
-  };
+  // addingDislike = id => {
+  //   // console.log("id is:", id);
+  // };
 
   render() {
     if (this.state.fetching === null) {
@@ -89,6 +94,7 @@ export default class QuoteSearcher extends React.Component {
 
           <h2>Liked:{this.state.likes}</h2>
           <h2>Disliked:{this.state.dislikes}</h2>
+
           {this.state.quotes.map(quote => (
             <Quote
               key={quote._id}
