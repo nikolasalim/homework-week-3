@@ -11,7 +11,7 @@ export default class Quote extends React.Component {
   };
 
   handleLike = () => {
-    this.props.addLike(this.props.id, this.props.likeness);
+    this.props.setLiked(this.props.id, this.props.likeness);
     this.setState({
       newStyle: { color: "green", fontWeight: "bold" },
       likeness: true
@@ -19,7 +19,7 @@ export default class Quote extends React.Component {
   };
 
   handleDislike = () => {
-    this.props.addDislike(this.props.id, this.props.likeness);
+    this.props.setDisliked(this.props.id, this.props.likeness);
     this.setState({
       newStyle: {
         color: "red",
